@@ -1,5 +1,7 @@
 ﻿namespace GildedRoseKata
 {
+    //NEVER CHANGE THIS!!!!!!!
+
     public class Item
     {
         public string Name { get; set; }
