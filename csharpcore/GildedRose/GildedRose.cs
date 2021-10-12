@@ -2,7 +2,7 @@
 
 namespace GildedRoseKata
 {
-    public class GildedRose
+    public class GildedRose : IGildedRose
     {
         IList<Item> Items;
         public GildedRose(IList<Item> itemsList)
@@ -12,78 +12,90 @@ namespace GildedRoseKata
 
         public void UpdateQuality()
         {
-            for (var i = 0; i < Items.Count; i++)
+            foreach (Item item in Items)
             {
-                if (Items[i].Name != "Aged Brie" && Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
-                {
-                    if (Items[i].Quality > 0)
+                QualityChanger(item);
+                SellInChanger(item);
+            }            
+        }
+
+        public void QualityChanger(Item item)
+        {
+            switch (item.Name)
+            {
+                case "Sulfuras, Hand of Ragnaros":
                     {
-                        if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                        {
-                            Items[i].Quality = Items[i].Quality - 1;
-                        }
+                        return;
                     }
-                }
-                else
-                {
-                    if (Items[i].Quality < 50)
+
+                case "Aged Brie":
                     {
-                        Items[i].Quality = Items[i].Quality + 1;
-
-                        if (Items[i].Name == "Backstage passes to a TAFKAL80ETC concert")
+                        if (item.Quality < 50)
                         {
-                            if (Items[i].SellIn < 11)
-                            {
-                                if (Items[i].Quality < 50)
-                                {
-                                    Items[i].Quality = Items[i].Quality + 1;
-                                }
-                            }
-
-                            if (Items[i].SellIn < 6)
-                            {
-                                if (Items[i].Quality < 50)
-                                {
-                                    Items[i].Quality = Items[i].Quality + 1;
-                                }
-                            }
+                            item.Quality = item.Quality + 1;
                         }
+                        return;
                     }
-                }
-
-                if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                {
-                    Items[i].SellIn = Items[i].SellIn - 1;
-                }
-
-                if (Items[i].SellIn < 0)
-                {
-                    if (Items[i].Name != "Aged Brie")
+                case "Backstage passes to a TAFKAL80ETC concert":
                     {
-                        if (Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
+                        if (item.SellIn < 0)
                         {
-                            if (Items[i].Quality > 0)
-                            {
-                                if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                                {
-                                    Items[i].Quality = Items[i].Quality - 1;
-                                }
-                            }
+                            item.Quality = 0;
                         }
                         else
                         {
-                            Items[i].Quality = Items[i].Quality - Items[i].Quality;
+                            if ((item.SellIn < 11) && (item.SellIn > 5))
+                            {
+                                item.Quality = item.Quality + 2;
+                            }
+                            else if (item.SellIn < 6)
+                            {
+                                item.Quality = item.Quality + 3;
+                            }
+                            else
+                            {
+                                item.Quality = item.Quality + 1;
+                            }
                         }
+                        return;
                     }
-                    else
+                case "Conjured Mana Cake":
                     {
-                        if (Items[i].Quality < 50)
+                        if (item.Quality > 1)
                         {
-                            Items[i].Quality = Items[i].Quality + 1;
+                            item.Quality = item.Quality - 2;
                         }
+                        else
+                        {
+                            item.Quality = item.Quality - 1;
+                        }
+                        return;
                     }
-                }
+                default:
+                    {
+                        if (item.SellIn > 0)
+                        {
+                            item.Quality = item.Quality - 1;
+                        }
+                        else
+                        {
+                            if (item.Quality > 1)
+                            {
+                                item.Quality = item.Quality - 2;
+                            }
+                            else 
+                            {
+                                item.Quality = item.Quality - 1;
+                            }
+                        }
+                        return;
+                    }
             }
+        }
+
+        public void SellInChanger(Item item)
+        {   
+            item.SellIn = item.SellIn - 1;
         }
     }
 }

@@ -7,26 +7,11 @@ namespace GildedRoseKata
     {
         public Program()
         {
-            InitializePlainConstants();
             InitializeItemList();
         }
-
-        private static Dictionary<string, int> neverChangingItems;
+                
         private static List<Item> itemsList;       
-
-        
-        private void InitializePlainConstants()
-        {
-            neverChangingItems = new Dictionary<string, int>();
-            const int sulfurasQuantity = 80;
-            neverChangingItems.Add("Sulfuras_Quality", sulfurasQuantity);
-            const int sulfurasSellIn = 0;
-            neverChangingItems.Add("Sulfuras_SellIn", sulfurasSellIn);
-            const int QualityUpperBound = 50;
-            neverChangingItems.Add("QualityUpperBound", QualityUpperBound);
-            const int QualityLowerBound = 0;
-            neverChangingItems.Add("QualityLowerBound", QualityLowerBound);
-        }
+         
 
         private void InitializeItemList()
         {
@@ -44,23 +29,14 @@ namespace GildedRoseKata
             };
         }
 
-        protected internal void AddNewItem(string newItemName, int newItemSellIn, int newItemQuality )
-        {
-            itemsList.Add(new Item { Name = newItemName, Quality = newItemSellIn, SellIn = newItemQuality });
-        }
-
-        protected internal void IntroduceNewPlainConstraint(string newPlainConstraintReferenceName, int newPlainConstraintValue)
-        {
-            neverChangingItems.Add(newPlainConstraintReferenceName, newPlainConstraintValue);
-        }
-
-        
+                
         public static void Main(string[] args)
         {
             GildedRose rose = new GildedRose(itemsList);
 
             Console.WriteLine("OMGHAI!"); 
 
+            // Not sure if it is worth listing everything 31 times. err it's stupid.
             for (var i = 0; i < 31; i++)
             {
                 Console.WriteLine("-------- day " + i + " --------");
