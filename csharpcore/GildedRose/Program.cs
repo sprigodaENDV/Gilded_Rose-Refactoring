@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using GildedRoseKata.Select;
 
 namespace GildedRoseKata
 {
     public class Program
-    {
-        public Program()
-        {
-            InitializeItemList();
-        }
-                
-        private static List<Item> itemsList;       
+    {    
+        
+        private static List<Item> itemsList;
+        public static List<IQualityChanger> changerList;
          
 
-        private void InitializeItemList()
+        private static void InitializeItemList()
         {
             itemsList = new List<Item>{
                 new Item {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
@@ -29,10 +27,25 @@ namespace GildedRoseKata
             };
         }
 
+
+        private static void InitializeChangerList()
+        {
+            changerList = new List<IQualityChanger>();
+            
+            changerList.Add(new QualityChanger_forAgedBrie());
+            changerList.Add(new QualityChanger_forBackstageTAFKAL80ETC());
+            changerList.Add(new QualityChanger_forConjured());
+            changerList.Add(new QualityChanger_forSulfuras());
+            changerList.Add(new QualityChanger_Default());
+        }
+
                 
         public static void Main(string[] args)
         {
-            GildedRose rose = new GildedRose(itemsList);
+            InitializeItemList();
+            InitializeChangerList();
+
+            GildedRose rose = new GildedRose(itemsList, changerList);
 
             Console.WriteLine("OMGHAI!"); 
 
@@ -47,6 +60,7 @@ namespace GildedRoseKata
                 }
                 Console.WriteLine("");
                 rose.UpdateQuality();
+                //Console.ReadLine();
             }
         }
     }
